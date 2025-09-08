@@ -1,3 +1,6 @@
+import {ValidationError} from "./errors.js";
+import {generateUUID, isValidUUID} from "./uuid.js";
+
 /**
  * ProductId Value Object
  * Represents a unique identifier for a product.
@@ -10,7 +13,8 @@ export class ProductId {
      * @param {string} value - The UUID string representing the product ID.
      */
     constructor(value) {
-        // TODO: Validate if value is a valid UUID
+        if (!isValidUUID(value))
+            throw new ValidationError(`Invalid ProductId: ${value}`);
         this.#value = value;
     }
 
@@ -19,8 +23,7 @@ export class ProductId {
      * @returns {ProductId} A new ProductId instance.
      */
     static generate() {
-        // TODO: Generate a new ProductId instance with a new UUID
-        return null;
+        return new ProductId(generateUUID());
     }
 
     /**
